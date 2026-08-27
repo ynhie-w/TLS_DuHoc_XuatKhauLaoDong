@@ -1,0 +1,234 @@
+.footer {
+    width: 100%;
+
+    background-color: var(--green-3);
+    color: var(--color-white);
+
+    margin-top: 60px;
+}
+
+
+/* =========================
+   CONTAINER
+========================= */
+
+.footer-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+
+    padding: 60px 40px 45px;
+
+    display: grid;
+    grid-template-columns:
+        2fr
+        1fr
+        1fr
+        1.5fr;
+
+    gap: 50px;
+}
+
+
+/* =========================
+   CỘT
+========================= */
+
+.footer-column h2 {
+    margin: 0 0 15px;
+
+    color: var(--color-white);
+
+    font-family: var(--font-title);
+    font-size: 25px;
+
+    -webkit-text-stroke: 0;
+}
+
+.footer-column h3 {
+    margin: 0 0 20px;
+
+    color: var(--color-white);
+
+    font-family: var(--font-title);
+    font-size: 16px;
+}
+
+.footer-column p {
+    margin: 0 0 10px;
+
+    color: var(--green-7);
+
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+
+/* =========================
+   GIỚI THIỆU
+========================= */
+
+.footer-about {
+    max-width: 320px;
+}
+
+.footer-about > p {
+    margin-bottom: 20px;
+}
+
+
+/* =========================
+   MENU
+========================= */
+
+.footer-column ul {
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+}
+
+.footer-column li a {
+    color: var(--green-7);
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    transition: var(--transition-fast);
+}
+
+.footer-column li a:hover {
+    color: var(--color-white);
+    padding-left: 5px;
+}
+
+
+/* =========================
+   SOCIAL
+========================= */
+
+.footer-social {
+    display: flex;
+    gap: 15px;
+}
+
+.footer-social a {
+    color: var(--green-7);
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    transition: var(--transition-fast);
+}
+
+.footer-social a:hover {
+    color: var(--color-white);
+}
+
+
+/* =========================
+   CONTACT
+========================= */
+
+.footer-contact p {
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+}
+
+
+/* =========================
+   FOOTER BOTTOM
+========================= */
+
+.footer-bottom {
+    border-top: 1px solid rgba(194, 241, 221, 0.25);
+
+    max-width: var(--container-width);
+    margin: 0 auto;
+
+    padding: 20px 40px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+}
+
+.footer-bottom p {
+    margin: 0;
+
+    color: rgba(194, 241, 221, 0.65);
+
+    font-size: 13px;
+}
+
+.footer-bottom div {
+    display: flex;
+    gap: 12px;
+}
+
+.footer-bottom a {
+    color: rgba(194, 241, 221, 0.65);
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    transition: var(--transition-fast);
+}
+
+.footer-bottom a:hover {
+    color: var(--color-white);
+}
+
+.footer-bottom span {
+    color: rgba(194, 241, 221, 0.3);
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+    .footer-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+    }
+}
+
+
+@media (max-width: 600px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+
+        padding: 45px 25px 35px;
+
+        gap: 35px;
+    }
+
+    .footer-about {
+        max-width: none;
+    }
+
+    .footer-bottom {
+        padding: 20px 25px;
+
+        flex-direction: column;
+
+        text-align: center;
+    }
+
+    .footer-bottom div {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}

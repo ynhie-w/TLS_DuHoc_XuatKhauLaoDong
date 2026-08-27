@@ -1,0 +1,154 @@
+.country--list {
+    width: 100%;
+    padding: 10px;
+
+    font-family: var(--font-title);
+
+    background-color: var(--green-8);
+    border: 2px solid var(--green-7);
+    border-radius: var(--radius-small);
+}
+
+
+/* TITLE */
+
+.country--list h3 {
+    margin: 0 0 10px;
+    padding: 10px;
+
+    color: var(--color-white);
+    background-color: var(--green-5);
+
+    text-align: center;
+    border-radius: var(--radius-small);
+
+    font-size: 14px;
+}
+
+
+/* LIST */
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+
+/* COUNTRY BUTTON */
+
+.list-p {
+    appearance: none;
+    -webkit-appearance: none;
+
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    min-height: 34px;
+
+    box-sizing: border-box;
+
+    margin: 0;
+    padding: 4px 7px;
+
+    border: 2px solid transparent;
+    border-radius: var(--radius-small);
+
+    outline: none;
+
+    background: var(--color-white);
+    color: var(--green-3);
+
+    font-family: var(--font-title);
+    font-size: 12px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition: var(--transition-fast);
+}
+
+
+/* FLAG */
+
+.list-p .flag {
+    width: 32px !important;
+    height: 24px !important;
+
+    flex-shrink: 0;
+
+    border: 1px solid var(--green-7);
+    border-radius: 5px;
+}
+
+
+/* COUNTRY NAME */
+
+.list-p .country-name {
+    flex: 1;
+
+    min-width: 0;
+
+    margin-left: 3px;
+
+    text-align: left;
+
+    color: var(--green-3);
+}
+
+
+/* PROGRAM COUNT */
+
+.list-p .program-count {
+    flex-shrink: 0;
+
+    margin: 0;
+    padding: 0 5px;
+
+    color: var(--red);
+
+    font-family: var(--font-primary);
+    font-size: 13px;
+}
+
+
+/* HOVER */
+
+.list-p:hover {
+    background: var(--green-5) !important;
+    color: var(--color-white) !important;
+
+    border-color: var(--green-4);
+
+    transform: none;
+}
+
+
+/* TEXT HOVER */
+
+.list-p:hover .country-name {
+    color: var(--color-white);
+}
+
+.list-p:hover .program-count {
+    color: var(--green-7);
+}
+
+
+/* CLICK */
+
+.list-p:active {
+    background: var(--green-4) !important;
+    color: var(--color-white) !important;
+
+    transform: none;
+}
+
+
+/* FOCUS */
+
+.list-p:focus,
+.list-p:focus-visible {
+    outline: none;
+}

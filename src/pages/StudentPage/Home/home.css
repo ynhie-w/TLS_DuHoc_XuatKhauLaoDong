@@ -1,0 +1,42 @@
+.home {
+    padding: 0 10px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+}
+.home h1{
+    text-align: center;
+}
+.options {
+    padding: 30px;
+    background-color: #eaf9f3;
+    box-shadow: var(--shadow);
+    display: flex;
+    gap: 25px;
+    align-items: flex-start;
+}
+
+/* Cột quốc gia */
+.country-list {
+    width: 15%;
+    flex-shrink: 0;
+}
+
+/* Khu vực bên phải */
+.filter-card {
+    width: 85%;
+    min-width: 0;
+}
+
+/* Filter */
+.filter {
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+/* Card */
+.cardx {
+    width: 100%;
+}

@@ -1,0 +1,142 @@
+:root {
+
+    /*====================================================
+                            FONT
+    ====================================================*/
+
+    --font-primary: "Itim", cursive;
+    --font-title: "Sigmar One", cursive;
+
+
+    /*====================================================
+                            COLORS
+    ====================================================*/
+
+    /*------------------ GREEN ------------------*/
+
+    --green-1: #02352C;       /* xanh đậm nhất - topbar, footer */
+    --green-2: #003300;       /* xanh chữ chính */
+    --green-3: #015F4C;       /* xanh đậm - hover */
+    --green-4: #03795F;       /* xanh chủ đạo */
+    --green-5: #2B947F;       /* xanh trung gian */
+    --green-6: #68AF9F;       /* xanh chữ phụ */
+    --green-7: #C2F1DD;       /* xanh section */
+    --green-8: #EAF9F3;       /* xanh nền */
+    --green-5-2: #68AF9E88;   /* xanh phụ nhạt */
+
+
+    /*------------------ YELLOW ------------------*/
+
+    --yellow-1: #F7BC07;      /* vàng chủ đạo */
+    --yellow-2: #FFD53B;      /* vàng hover */
+
+
+    /*------------------ RED ------------------*/
+
+    --red: #bf5857;         /* lỗi */
+
+
+    /*------------------ BLUE ------------------*/
+
+    --blue-1: #2196F3;        /* thông tin */
+
+
+    /*====================================================
+                        COLOR SEMANTIC
+    ====================================================*/
+
+    /*------------------ MÀU CHỦ ĐẠO ------------------*/
+
+    --color-primary: var(--green-4);
+    --color-primary-hover: var(--green-3);
+
+
+    /*------------------ MÀU PHỤ ------------------*/
+
+    --color-secondary: var(--yellow-1);
+    --color-secondary-hover: var(--yellow-2);
+
+
+    /*------------------ MÀU NỀN ------------------*/
+
+    --color-background: var(--green-8);
+    --color-section: var(--green-7);
+    --color-card: #FFFFFF;
+    --color-navbar: #FFFFFF;
+    --color-topbar: var(--green-1);
+    --color-footer: var(--green-1);
+
+
+    /*------------------ MÀU CHỮ ------------------*/
+
+    --color-text: var(--green-2);
+    --color-text-muted: var(--green-5);
+    --color-text-placeholder: #A5B0AC;
+
+
+    /*------------------ TRẮNG / ĐEN ------------------*/
+
+    --color-white: #FFFFFF;
+    --color-black: #000000;
+
+
+    /*====================================================
+                            STATUS
+    ====================================================*/
+
+    --color-success: #2E8B57;
+    --color-warning: var(--yellow-1);
+    --color-error: var(--red-1);
+    --color-info: var(--blue-1);
+
+
+    /*====================================================
+                            SHADOW
+    ====================================================*/
+
+    --shadow-button: 2px 2px 0 rgb(0, 0, 0);
+    --shadow-card: 7px 7px 10px rgba(0, 0, 0, 0.28);
+    --shadow: 0 10px 20px rgba(0, 0, 0, 0.275);
+
+
+    /*====================================================
+                        BORDER RADIUS
+    ====================================================*/
+
+    --radius-small: 8px;
+    --radius-medium: 16px;
+    --radius-large: 24px;
+    --radius-circle: 50%;
+
+
+    /*====================================================
+                        TRANSITION
+    ====================================================*/
+
+    --transition-fast: all 0.2s ease;
+    --transition-medium: all 0.3s ease;
+    --transition-slow: all 0.5s ease;
+
+
+    /*====================================================
+                        FONT SIZE
+    ====================================================*/
+
+    --font-size-1: 14px;
+    --font-size-2: 16px;
+    --font-size-3: 18px;
+    --font-size-4: 20px;
+    --font-size-5: 24px;
+    --font-size-6: 32px;
+    --font-size-7: 48px;
+
+
+    /*====================================================
+                            LAYOUT
+    ====================================================*/
+
+    --page-padding: 20px;
+    --container-width: 1440px;
+    --section-padding: 80px;
+
+}

@@ -1,0 +1,140 @@
+.country {
+    gap: 0 30px;
+    padding: 0 50px;
+}
+
+.banner-country {
+    margin: 0 50px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    text-align: center;
+
+    min-height: 500px;
+    padding: 50px;
+
+    border-radius: 25px;
+    overflow: hidden;
+
+    background-size: 100% auto;
+    background-position: center top;
+    background-repeat: no-repeat;
+
+    box-shadow: var(--shadow-card);
+
+    transition:
+        transform 0.4s ease,
+        box-shadow 0.4s ease,
+        background-size 0.6s ease;
+}
+
+/* =========================
+        BANNER HOVER
+========================= */
+
+.banner-country:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.2);
+
+    background-size: 105% auto;
+}
+
+
+/* =========================
+        TITLE
+========================= */
+
+.banner-country h1 {
+    font-size: 50px;
+
+    margin: 0 0 15px;
+
+    transition:
+        transform 0.4s ease,
+        text-shadow 0.4s ease;
+}
+
+.banner-country:hover h1 {
+    transform: translateY(-5px);
+
+    text-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.35);
+}
+
+
+/* =========================
+        DESCRIPTION
+========================= */
+
+.banner-country h2 {
+    font-size: 24px;
+
+    color: var(--red);
+
+    margin: 0;
+
+    transition:
+        transform 0.4s ease,
+        text-shadow 0.4s ease;
+}
+
+.banner-country:hover h2 {
+    transform: translateY(-3px);
+
+    text-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.3);
+}
+.country-introduced{
+    padding: 10px 100px;
+    display: flex;
+    justify-content:space-between;
+    align-items: end;
+}
+.list-country button {
+    position: relative;
+
+    border: none;
+    padding: 10px 20px;
+
+    background: transparent;
+    color: var(--color-text);
+
+    font-family: var(--font-primary);
+    font-size: 16px;
+
+    cursor: pointer;
+
+    transition:
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+.list-country button::after {
+    content: "";
+
+    position: absolute;
+    left: 50%;
+    bottom: 3px;
+
+    width: 0;
+    height: 3px;
+
+    background: var(--green-3);
+    border-radius: 10px;
+
+    transform: translateX(-50%);
+    transition: width 0.3s ease;
+}
+
+.list-country button:hover {
+    color: var(--green-3);
+    transform: translateY(-3px);
+}
+
+.list-country button:hover::after {
+    width: 65%;
+}

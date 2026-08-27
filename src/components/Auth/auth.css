@@ -1,0 +1,404 @@
+.login-box,
+.register-box {
+    margin: 0 50px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr;
+
+    min-height: 600px;
+
+    border-radius: 25px;
+    overflow: hidden;
+
+    background-image:
+        linear-gradient(
+            to bottom,
+            var(--green-8) 1%,
+            color-mix(in srgb, var(--green-8) 50%, transparent) 10%,
+            color-mix(in srgb, var(--green-8) 20%, transparent) 25%,
+
+            rgba(255, 255, 255, 0) 45%,
+            rgba(0, 0, 0, 0.85) 100%
+        ),
+        url("../../assets/images/auth.png");
+
+    background-size: 100% auto;
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+
+
+/* =========================
+   HEADING
+========================= */
+
+h1,
+h2 {
+    color: var(--green-4);
+
+    font-family: var(--font-title);
+
+    -webkit-text-stroke: 0.2px white;
+}
+
+h3 {
+    font-weight: 200;
+}
+
+
+/* =========================
+   AUTH BRAND
+========================= */
+
+.auth-brand {
+    padding-top: 20px;
+    text-align: center;
+}
+
+
+/* =========================
+   AUTH TABS
+========================= */
+
+.auth-tabs {
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    gap: 20px;
+}
+
+.auth-tabs button {
+    font-family: var(--font-title);
+
+    color: var(--green-4);
+    background-color: rgba(0, 0, 0, 0);
+
+    border: none;
+}
+
+.auth-tabs .active {
+    -webkit-text-stroke: 0.5px white;
+
+    border-bottom: 3px solid var(--green-4);
+}
+
+
+/* =========================
+   AUTH INTRO
+========================= */
+
+.auth-intro {
+    padding-left: 120px;
+    margin-right: 210px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    gap: 35px;
+
+    color: white;
+}
+
+.intro-item h3 {
+    margin: 0 0 8px;
+    font-size: 18px;
+}
+
+.intro-item p {
+    margin: 0;
+
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+
+/* =========================
+   AUTH FORM
+========================= */
+
+.auth-form {
+    margin: 25px;
+    padding: 30px 40px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.auth-form h2 {
+    margin: 0 0 8px;
+
+    font-family: var(--font-title);
+    font-size: 30px;
+
+    color: var(--green-4);
+}
+
+.login-description {
+    margin: 0 0 25px;
+
+    color: var(--green-5);
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   FORM GROUP
+========================= */
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 600;
+
+    color: var(--green-2);
+}
+
+.form-group input {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 12px 15px;
+
+    border: 1px solid var(--green-5-2);
+    border-radius: 10px;
+
+    outline: none;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    background-color: #fff;
+
+    transition: 0.2s ease;
+}
+
+.form-group input::placeholder {
+    color: #a0aaa6;
+}
+
+.form-group input:focus {
+    border-color: var(--green-4);
+
+    box-shadow:
+        0 0 0 3px
+        color-mix(
+            in srgb,
+            var(--green-4) 10%,
+            transparent
+        );
+}
+
+
+/* =========================
+   FORGOT PASSWORD
+========================= */
+
+.forgot-password {
+    display: flex;
+    justify-content: flex-end;
+
+    margin-top: -5px;
+    margin-bottom: 18px;
+}
+
+.forgot-password button {
+    border: none;
+    background: transparent;
+
+    padding: 0;
+
+    color: var(--green-4);
+
+    font-size: 13px;
+
+    cursor: pointer;
+}
+
+.forgot-password button:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================
+   LOGIN BUTTON
+========================= */
+
+.login-submit {
+    width: 100%;
+
+    padding: 13px;
+
+    border: none;
+    border-radius: 10px;
+
+    background-color: var(--green-4);
+    color: white;
+
+    font-family: var(--font-title);
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.login-submit:hover {
+    background-color: var(--green-3);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================
+   DIVIDER
+========================= */
+
+.login-divider {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin: 22px 0;
+
+    color: #999;
+    font-size: 13px;
+}
+
+.login-divider::before,
+.login-divider::after {
+    content: "";
+
+    flex: 1;
+    height: 1px;
+
+    background-color: var(--green-5);
+}
+
+.login-divider span {
+    flex-shrink: 0;
+}
+
+
+/* =========================
+   GOOGLE BUTTON
+========================= */
+
+.login-google {
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid var(--green-5);
+    border-radius: 10px;
+
+    background-color: white;
+    color: var(--green-2);
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.login-google:hover {
+    background-color: #f5f8f7;
+
+    border-color: var(--green-4);
+}
+
+
+/* =========================
+   REGISTER
+========================= */
+
+.auth-switch {
+    margin: 22px 0 0;
+
+    text-align: center;
+
+    color: var(--green-5);
+
+    font-size: 14px;
+}
+
+.auth-switch button {
+    padding: 0;
+
+    border: none;
+    background: transparent;
+
+    color: var(--green-4);
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.auth-switch button:hover {
+    text-decoration: underline;
+}
+
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+
+    font-family: var(--font-primary);
+    font-size: 14px;
+
+    color: var(--color-text);
+    background: var(--color-white);
+
+    border: 2px solid var(--green-3);
+    border-radius: 8px;
+
+    outline: none;
+
+    transition: var(--transition-medium);
+}
+
+.form-group select {
+    height: 42px;
+    padding: 0 12px;
+    cursor: pointer;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    padding: 10px 12px;
+    resize: vertical;
+}
+
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--green-4);
+    box-shadow: 0 0 0 2px rgba(3, 121, 95, 0.1);
+}
+
+.form-group input:focus {
+    border-color: var(--green-4);
+}
+
+.form-group select:disabled {
+    background: #f2f2f2;
+    cursor: not-allowed;
+}
