@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import RoleSwitcher from "../RoleSwitcher/roleSwitcher";
 
@@ -10,13 +10,48 @@ export default function Header({
     onLogin,
     onRegister,
 }) {
+    const navigate = useNavigate();
+
+    // ======================================================
+    // HEADER SHOW / HIDE
+    // ======================================================
+
     const [showHeader, setShowHeader] = useState(true);
 
     const lastScrollY = useRef(0);
     const scrollUpDistance = useRef(0);
 
     // ======================================================
-    // HIDE / SHOW HEADER WHEN SCROLL
+    // ACCOUNT
+    // ======================================================
+
+    const [account, setAccount] = useState(() => {
+        try {
+            const savedAccount =
+                localStorage.getItem("account");
+
+            return savedAccount
+                ? JSON.parse(savedAccount)
+                : null;
+        } catch (error) {
+            console.error(
+                "Không thể đọc account:",
+                error
+            );
+
+            return null;
+        }
+    });
+
+    // ======================================================
+    // PROFILE DROPDOWN
+    // ======================================================
+
+    const [showProfileMenu, setShowProfileMenu] =
+        useState(false);
+
+    // ======================================================
+    // HIDE / SHOW HEADER
     // ======================================================
 
     useEffect(() => {
@@ -26,25 +61,18 @@ export default function Header({
             const difference =
                 currentScrollY - lastScrollY.current;
 
-            // Đầu trang
             if (currentScrollY <= 10) {
                 setShowHeader(true);
                 scrollUpDistance.current = 0;
-            }
-
-            // Cuộn xuống → ẩn
-            else if (difference > 0) {
+            } else if (difference > 0) {
                 scrollUpDistance.current = 0;
                 setShowHeader(false);
-            }
-
-            // Cuộn lên
-            else if (difference < 0) {
+                setShowProfileMenu(false);
+            } else if (difference < 0) {
                 scrollUpDistance.current += Math.abs(
                     difference
                 );
 
-                // Cuộn lên đủ 10px → hiện
                 if (
                     scrollUpDistance.current >= 10
                 ) {
@@ -73,7 +101,60 @@ export default function Header({
     }, []);
 
     // ======================================================
-    // MENU THEO ROLE
+    // ĐỒNG BỘ ACCOUNT
+    // ======================================================
+
+    useEffect(() => {
+        const handleAuthChange = () => {
+            try {
+                const savedAccount =
+                    localStorage.getItem("account");
+
+                const newAccount = savedAccount
+                    ? JSON.parse(savedAccount)
+                    : null;
+
+                setAccount(newAccount);
+
+                if (!newAccount) {
+                    setShowProfileMenu(false);
+                }
+            } catch (error) {
+                console.error(
+                    "Không thể cập nhật account:",
+                    error
+                );
+
+                setAccount(null);
+                setShowProfileMenu(false);
+            }
+        };
+
+        window.addEventListener(
+            "authChange",
+            handleAuthChange
+        );
+
+        window.addEventListener(
+            "storage",
+            handleAuthChange
+        );
+
+        return () => {
+            window.removeEventListener(
+                "authChange",
+                handleAuthChange
+            );
+
+            window.removeEventListener(
+                "storage",
+                handleAuthChange
+            );
+        };
+    }, []);
+
+    // ======================================================
+    // MENU
     // ======================================================
 
     const menuByRole = {
@@ -182,9 +263,149 @@ export default function Header({
         ],
     };
 
+    // ======================================================
+    // ROLE
+    // ======================================================
+
+    const accountRole =
+        account?.role?.name ||
+        account?.role ||
+        localStorage.getItem("role") ||
+        role ||
+        "student";
+
+    // ======================================================
+    // MENU THEO ROLE
+    // ======================================================
+
     const menus =
-        menuByRole[role] ||
+        menuByRole[accountRole] ||
         menuByRole.student;
+
+    // ======================================================
+    // AVATAR
+    // ======================================================
+
+    const avatar =
+        account?.avatar ||
+        "/images/default-avatar.png";
+
+    // ======================================================
+    // HOME PATH
+    // ======================================================
+
+    const homePath =
+        accountRole === "student"
+            ? "/student/home"
+            : accountRole === "company"
+            ? "/company/home"
+            : accountRole === "broker"
+            ? "/broker/home"
+            : accountRole === "admin"
+            ? "/admin/home"
+            : "/";
+
+    // ======================================================
+    // LOGIN SUCCESS
+    // ======================================================
+
+    useEffect(() => {
+        const handleLoginSuccess = () => {
+            const savedAccount =
+                localStorage.getItem("account");
+
+            if (!savedAccount) {
+                return;
+            }
+
+            try {
+                const user = JSON.parse(
+                    savedAccount
+                );
+
+                setAccount(user);
+
+                const userRole =
+                    user?.role?.name ||
+                    user?.role ||
+                    localStorage.getItem("role") ||
+                    "student";
+
+                // Chuyển trang theo role
+                if (userRole === "student") {
+                    navigate("/student/home");
+                } else if (userRole === "company") {
+                    navigate("/company/home");
+                } else if (userRole === "broker") {
+                    navigate("/broker/home");
+                } else if (userRole === "admin") {
+                    navigate("/admin/home");
+                }
+
+            } catch (error) {
+                console.error(
+                    "LOGIN NAVIGATION ERROR:",
+                    error
+                );
+            }
+        };
+
+        window.addEventListener(
+            "authChange",
+            handleLoginSuccess
+        );
+
+        return () => {
+            window.removeEventListener(
+                "authChange",
+                handleLoginSuccess
+            );
+        };
+    }, [navigate]);
+
+    // ======================================================
+    // PERSONAL INFORMATION
+    // ======================================================
+
+    const handlePersonalInfo = () => {
+        setShowProfileMenu(false);
+
+        navigate(
+            `/${accountRole}/profile`
+        );
+    };
+
+    // ======================================================
+    // PROFILE
+    // ======================================================
+
+    const handleProfile = () => {
+        setShowProfileMenu(false);
+
+        navigate(
+            `/${accountRole}/profile`
+        );
+    };
+
+    // ======================================================
+    // LOGOUT
+    // ======================================================
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("account");
+        localStorage.removeItem("role");
+        localStorage.removeItem("userId");
+
+        setAccount(null);
+        setShowProfileMenu(false);
+
+        window.dispatchEvent(
+            new Event("authChange")
+        );
+
+        navigate("/student/home");
+    };
 
     // ======================================================
     // RENDER
@@ -199,28 +420,21 @@ export default function Header({
             }
         >
 
-            {/* ================= LOGO ================= */}
+            {/* ==================================================
+                LOGO
+            ================================================== */}
 
             <div className="logo">
 
-                <NavLink
-                    to={
-                        role === "student"
-                            ? "/student/home"
-                            : role === "company"
-                            ? "/company/home"
-                            : role === "broker"
-                            ? "/broker/home"
-                            : "/admin/home"
-                    }
-                >
+                <NavLink to={homePath}>
                     TLS
                 </NavLink>
 
             </div>
 
-
-            {/* ================= MENU ================= */}
+            {/* ==================================================
+                MENU
+            ================================================== */}
 
             <nav className="menu">
 
@@ -232,7 +446,10 @@ export default function Header({
 
                             <NavLink
                                 to={item.path}
-                                end={item.name === "Trang chủ"}
+                                end={
+                                    item.name ===
+                                    "Trang chủ"
+                                }
                                 className={({ isActive }) =>
                                     isActive
                                         ? "active"
@@ -241,6 +458,7 @@ export default function Header({
                             >
                                 {item.name}
                             </NavLink>
+
                         </li>
 
                     ))}
@@ -249,30 +467,175 @@ export default function Header({
 
             </nav>
 
-
-            {/* ================= ACTION ================= */}
+            {/* ==================================================
+                ACTION
+            ================================================== */}
 
             <div className="btn-dieu-huong">
 
-                <button
-                    type="button"
-                    className="button"
-                    onClick={onRegister}
-                >
-                    Đăng ký
-                </button>
+                {/* ==================================================
+                    CHƯA LOGIN
+                ================================================== */}
 
+                {!account && (
+                    <>
 
-                <button
-                    type="button"
-                    className="button"
-                    onClick={onLogin}
-                >
-                    Đăng nhập
-                </button>
+                        <button
+                            type="button"
+                            className="button"
+                            onClick={onRegister}
+                        >
+                            Đăng ký
+                        </button>
 
+                        <button
+                            type="button"
+                            className="button"
+                            onClick={onLogin}
+                        >
+                            Đăng nhập
+                        </button>
 
-                <RoleSwitcher />
+                        <RoleSwitcher />
+
+                    </>
+                )}
+
+                {/* ==================================================
+                    ĐÃ LOGIN
+                ================================================== */}
+
+                {account && (
+
+                    <div className="user-menu">
+
+                        <button
+                            type="button"
+                            className="user-button"
+                            onClick={() =>
+                                setShowProfileMenu(
+                                    (prev) =>
+                                        !prev
+                                )
+                            }
+                        >
+
+                            <img
+                                src={avatar}
+                                alt="Avatar"
+                                className="user-avatar"
+                                onError={(e) => {
+                                    e.currentTarget.src =
+                                        "/images/default-avatar.png";
+                                }}
+                            />
+
+                            <span className="user-name">
+                                {account.name ||
+                                    account.email}
+                            </span>
+
+                            <span className="user-arrow">
+                                {showProfileMenu
+                                    ? "▲"
+                                    : "▼"}
+                            </span>
+
+                        </button>
+
+                        {/* ==================================================
+                            DROPDOWN
+                        ================================================== */}
+
+                        {showProfileMenu && (
+
+                            <div className="user-dropdown">
+
+                                {/* USER INFO */}
+
+                                <div className="user-info">
+
+                                    <img
+                                        src={avatar}
+                                        alt="Avatar"
+                                        className="dropdown-avatar"
+                                        onError={(e) => {
+                                            e.currentTarget.src =
+                                                "/images/default-avatar.png";
+                                        }}
+                                    />
+
+                                    <div className="user-info-text">
+
+                                        <strong>
+                                            {account.name ||
+                                                "Người dùng"}
+                                        </strong>
+
+                                        <span>
+                                            {account.email}
+                                        </span>
+
+                                        <small>
+                                            Vai trò:{" "}
+                                            {accountRole}
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                                <div className="dropdown-divider" />
+
+                                {/* THÔNG TIN CÁ NHÂN */}
+
+                                <button
+                                    type="button"
+                                    onClick={
+                                        handlePersonalInfo
+                                    }
+                                >
+                                    <span>👤</span>
+
+                                    Thông tin cá nhân
+                                </button>
+
+                                {/* PROFILE */}
+
+                                <button
+                                    type="button"
+                                    onClick={
+                                        handleProfile
+                                    }
+                                >
+                                    <span>⚙️</span>
+
+                                    Profile
+                                </button>
+
+                                <div className="dropdown-divider" />
+
+                                {/* LOGOUT */}
+
+                                <button
+                                    type="button"
+                                    className="logout-button"
+                                    onClick={
+                                        handleLogout
+                                    }
+                                >
+                                    <span>🚪</span>
+
+                                    Đăng xuất
+                                </button>
+
+                            </div>
+
+                        )}
+
+                    </div>
+
+                )}
 
             </div>
 

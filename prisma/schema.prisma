@@ -1,0 +1,385 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model admins {
+  id     Int   @id @default(autoincrement())
+  userId Int   @unique(map: "userId")
+  users  users @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_admins_users")
+}
+
+model applications {
+  id        Int       @id @default(autoincrement())
+  studentId Int
+  programId Int
+  status    String?   @default("pending") @db.VarChar(50)
+  note      String?   @db.Text
+  appliedAt DateTime? @default(now()) @db.DateTime(0)
+  updatedAt DateTime? @db.DateTime(0)
+  programs  programs  @relation(fields: [programId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_applications_programs")
+  students  students  @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_applications_students")
+
+  @@unique([studentId, programId], map: "uk_student_program_application")
+  @@index([programId], map: "fk_applications_programs")
+}
+
+model brokers {
+  id                Int        @id @default(autoincrement())
+  userId            Int        @unique(map: "userId")
+  brokerCode        String?    @unique(map: "brokerCode") @db.VarChar(50)
+  identityNumber    String?    @db.VarChar(20)
+  licenseNumber     String?    @db.VarChar(100)
+  licenseIssuedDate DateTime?  @db.Date
+  introduction      String?    @db.Text
+  experienceYears   Int?
+  companyName       String?    @db.VarChar(255)
+  rating            Decimal?   @default(0.0) @db.Decimal(2, 1)
+  users             users      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_brokers_users")
+  programs          programs[]
+  reviews           reviews[]
+}
+
+model certificatelevels {
+  id                  Int                   @id @default(autoincrement())
+  certificateId       Int
+  name                String                @db.VarChar(255)
+  certificates        certificates          @relation(fields: [certificateId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_certificateLevels_certificates")
+  programcertificates programcertificates[]
+  studentcertificates studentcertificates[]
+
+  @@index([certificateId], map: "fk_certificateLevels_certificates")
+}
+
+model certificates {
+  id                  Int                   @id @default(autoincrement())
+  name                String                @db.VarChar(255)
+  certificatelevels   certificatelevels[]
+  programcertificates programcertificates[]
+  studentcertificates studentcertificates[]
+}
+
+model companies {
+  id                     Int        @id @default(autoincrement())
+  userId                 Int        @unique(map: "userId")
+  representativeName     String?    @db.VarChar(255)
+  representativePosition String?    @db.VarChar(100)
+  businessCode           String?    @unique(map: "businessCode") @db.VarChar(50)
+  businessField          String?    @db.VarChar(255)
+  licenseNumber          String?    @db.VarChar(100)
+  website                String?    @db.VarChar(255)
+  description            String?    @db.Text
+  users                  users      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_companies_users")
+  programs               programs[]
+  reviews                reviews[]
+}
+
+model countries {
+  id                 Int                  @id @default(autoincrement())
+  name               String               @db.VarChar(255)
+  code               String               @unique(map: "code") @db.VarChar(10)
+  programs           programs[]
+  studentpreferences studentpreferences[]
+}
+
+model educationlevels {
+  id       Int        @id @default(autoincrement())
+  name     String     @db.VarChar(255)
+  code     String     @unique(map: "code") @db.VarChar(50)
+  programs programs[]
+  students students[]
+}
+
+model fields {
+  id                 Int                  @id @default(autoincrement())
+  name               String               @db.VarChar(255)
+  programs           programs[]
+  studentpreferences studentpreferences[]
+}
+
+model languages {
+  id               Int                @id @default(autoincrement())
+  name             String             @db.VarChar(255)
+  code             String             @unique(map: "code") @db.VarChar(10)
+  programlanguages programlanguages[]
+  studentlanguages studentlanguages[]
+}
+
+model messages {
+  id                               Int       @id @default(autoincrement())
+  senderId                         Int
+  receiverId                       Int
+  content                          String?   @db.Text
+  isRead                           Boolean?  @default(false)
+  createdAt                        DateTime? @default(now()) @db.DateTime(0)
+  users_messages_receiverIdTousers users     @relation("messages_receiverIdTousers", fields: [receiverId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_messages_receiver")
+  users_messages_senderIdTousers   users     @relation("messages_senderIdTousers", fields: [senderId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_messages_sender")
+
+  @@index([receiverId], map: "fk_messages_receiver")
+  @@index([senderId], map: "fk_messages_sender")
+}
+
+model news {
+  id        Int       @id @default(autoincrement())
+  authorId  Int?
+  title     String    @db.VarChar(255)
+  content   String?   @db.Text
+  thumbnail String?   @db.VarChar(255)
+  status    String?   @default("draft") @db.VarChar(50)
+  createdAt DateTime? @default(now()) @db.DateTime(0)
+  updatedAt DateTime? @db.DateTime(0)
+  users     users?    @relation(fields: [authorId], references: [id], onUpdate: Restrict, map: "fk_news_users")
+
+  @@index([authorId], map: "fk_news_users")
+}
+
+model notifications {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  title     String    @db.VarChar(255)
+  message   String?   @db.Text
+  type      String?   @db.VarChar(50)
+  isRead    Boolean?  @default(false)
+  createdAt DateTime? @default(now()) @db.DateTime(0)
+  users     users     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_notifications_users")
+
+  @@index([userId], map: "fk_notifications_users")
+}
+
+model programcertificates {
+  id                 Int                @id @default(autoincrement())
+  programId          Int
+  certificateId      Int
+  certificateLevelId Int?
+  required           Boolean?           @default(true)
+  certificates       certificates       @relation(fields: [certificateId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_programCertificates_certificates")
+  certificatelevels  certificatelevels? @relation(fields: [certificateLevelId], references: [id], onUpdate: Restrict, map: "fk_programCertificates_levels")
+  programs           programs           @relation(fields: [programId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_programCertificates_programs")
+
+  @@unique([programId, certificateId, certificateLevelId], map: "uk_program_certificate")
+  @@index([certificateId], map: "fk_programCertificates_certificates")
+  @@index([certificateLevelId], map: "fk_programCertificates_levels")
+}
+
+model programlanguages {
+  id            Int       @id @default(autoincrement())
+  programId     Int
+  languageId    Int
+  requiredLevel String?   @db.VarChar(255)
+  languages     languages @relation(fields: [languageId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_programLanguages_languages")
+  programs      programs  @relation(fields: [programId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_programLanguages_programs")
+
+  @@unique([programId, languageId], map: "uk_program_language")
+  @@index([languageId], map: "fk_programLanguages_languages")
+}
+
+model programs {
+  id                  Int                   @id @default(autoincrement())
+  companyId           Int
+  brokerId            Int?
+  countryId           Int
+  fieldId             Int
+  programTypeId       Int
+  name                String                @db.VarChar(255)
+  description         String?               @db.Text
+  salaryMin           Decimal?              @db.Decimal(15, 2)
+  salaryMax           Decimal?              @db.Decimal(15, 2)
+  salaryCurrency      String?               @db.VarChar(10)
+  cost                Decimal?              @db.Decimal(15, 2)
+  costCurrency        String?               @db.VarChar(10)
+  duration            String?               @db.VarChar(100)
+  ageMin              Int?
+  ageMax              Int?
+  educationLevelId    Int?
+  recruitmentTarget   Int?
+  applicationDeadline DateTime?             @db.Date
+  status              String?               @default("active") @db.VarChar(50)
+  createdAt           DateTime?             @default(now()) @db.DateTime(0)
+  updatedAt           DateTime?             @db.DateTime(0)
+  applications        applications[]
+  programcertificates programcertificates[]
+  programlanguages    programlanguages[]
+  brokers             brokers?              @relation(fields: [brokerId], references: [id], onUpdate: Restrict, map: "fk_programs_brokers")
+  companies           companies             @relation(fields: [companyId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_programs_companies")
+  countries           countries             @relation(fields: [countryId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_programs_countries")
+  educationlevels     educationlevels?      @relation(fields: [educationLevelId], references: [id], onUpdate: Restrict, map: "fk_programs_educationLevels")
+  fields              fields                @relation(fields: [fieldId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_programs_fields")
+  programtypes        programtypes          @relation(fields: [programTypeId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_programs_programTypes")
+  programservices     programservices[]
+  savedprograms       savedprograms[]
+
+  @@index([brokerId], map: "fk_programs_brokers")
+  @@index([companyId], map: "fk_programs_companies")
+  @@index([countryId], map: "fk_programs_countries")
+  @@index([educationLevelId], map: "fk_programs_educationLevels")
+  @@index([fieldId], map: "fk_programs_fields")
+  @@index([programTypeId], map: "fk_programs_programTypes")
+}
+
+model programservices {
+  id          Int      @id @default(autoincrement())
+  programId   Int
+  serviceId   Int
+  price       Decimal? @db.Decimal(15, 2)
+  currency    String?  @db.VarChar(10)
+  description String?  @db.VarChar(255)
+  programs    programs @relation(fields: [programId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_programServices_programs")
+  services    services @relation(fields: [serviceId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_programServices_services")
+
+  @@unique([programId, serviceId], map: "uk_program_service")
+  @@index([serviceId], map: "fk_programServices_services")
+}
+
+model programtypes {
+  id                 Int                  @id @default(autoincrement())
+  name               String               @db.VarChar(255)
+  code               String               @unique(map: "code") @db.VarChar(50)
+  programs           programs[]
+  studentpreferences studentpreferences[]
+}
+
+model reviews {
+  id        Int        @id @default(autoincrement())
+  studentId Int
+  brokerId  Int?
+  companyId Int?
+  rating    Decimal    @db.Decimal(2, 1)
+  comment   String?    @db.Text
+  createdAt DateTime?  @default(now()) @db.DateTime(0)
+  brokers   brokers?   @relation(fields: [brokerId], references: [id], onUpdate: Restrict, map: "fk_reviews_brokers")
+  companies companies? @relation(fields: [companyId], references: [id], onUpdate: Restrict, map: "fk_reviews_companies")
+  students  students   @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_reviews_students")
+
+  @@index([brokerId], map: "fk_reviews_brokers")
+  @@index([companyId], map: "fk_reviews_companies")
+  @@index([studentId], map: "fk_reviews_students")
+}
+
+model roles {
+  id    Int     @id @default(autoincrement())
+  name  String  @db.VarChar(50)
+  users users[]
+}
+
+model savedprograms {
+  id        Int       @id @default(autoincrement())
+  studentId Int
+  programId Int
+  createdAt DateTime? @default(now()) @db.DateTime(0)
+  programs  programs  @relation(fields: [programId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_savedPrograms_programs")
+  students  students  @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_savedPrograms_students")
+
+  @@unique([studentId, programId], map: "uk_student_program_saved")
+  @@index([programId], map: "fk_savedPrograms_programs")
+}
+
+model services {
+  id              Int               @id @default(autoincrement())
+  name            String            @db.VarChar(255)
+  programservices programservices[]
+}
+
+model studentcertificates {
+  id                 Int                @id @default(autoincrement())
+  studentId          Int
+  certificateId      Int
+  certificateLevelId Int?
+  certificateNumber  String?            @db.VarChar(100)
+  issuedDate         DateTime?          @db.Date
+  expiryDate         DateTime?          @db.Date
+  certificates       certificates       @relation(fields: [certificateId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_studentCertificates_certificates")
+  certificatelevels  certificatelevels? @relation(fields: [certificateLevelId], references: [id], onUpdate: Restrict, map: "fk_studentCertificates_levels")
+  students           students           @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_studentCertificates_students")
+
+  @@unique([studentId, certificateId, certificateLevelId], map: "uk_student_certificate")
+  @@index([certificateId], map: "fk_studentCertificates_certificates")
+  @@index([certificateLevelId], map: "fk_studentCertificates_levels")
+}
+
+model studentlanguages {
+  id         Int       @id @default(autoincrement())
+  studentId  Int
+  languageId Int
+  level      String?   @db.VarChar(255)
+  languages  languages @relation(fields: [languageId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_studentLanguages_languages")
+  students   students  @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_studentLanguages_students")
+
+  @@unique([studentId, languageId], map: "uk_student_language")
+  @@index([languageId], map: "fk_studentLanguages_languages")
+}
+
+model studentpreferences {
+  id                   Int           @id @default(autoincrement())
+  studentId            Int           @unique(map: "studentId")
+  desiredCountryId     Int?
+  desiredFieldId       Int?
+  desiredProgramTypeId Int?
+  desiredSalaryMin     Decimal?      @db.Decimal(15, 2)
+  desiredSalaryMax     Decimal?      @db.Decimal(15, 2)
+  salaryCurrency       String?       @db.VarChar(10)
+  budget               Decimal?      @db.Decimal(15, 2)
+  budgetCurrency       String?       @db.VarChar(10)
+  desiredAgeMin        Int?
+  desiredAgeMax        Int?
+  countries            countries?    @relation(fields: [desiredCountryId], references: [id], onUpdate: Restrict, map: "fk_studentPreferences_countries")
+  fields               fields?       @relation(fields: [desiredFieldId], references: [id], onUpdate: Restrict, map: "fk_studentPreferences_fields")
+  programtypes         programtypes? @relation(fields: [desiredProgramTypeId], references: [id], onUpdate: Restrict, map: "fk_studentPreferences_programTypes")
+  students             students      @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_studentPreferences_students")
+
+  @@index([desiredCountryId], map: "fk_studentPreferences_countries")
+  @@index([desiredFieldId], map: "fk_studentPreferences_fields")
+  @@index([desiredProgramTypeId], map: "fk_studentPreferences_programTypes")
+}
+
+model students {
+  id                  Int                   @id @default(autoincrement())
+  userId              Int                   @unique(map: "userId")
+  dateOfBirth         DateTime?             @db.Date
+  gender              String?               @db.VarChar(10)
+  identityNumber      String?               @db.VarChar(20)
+  nationality         String?               @db.VarChar(255)
+  educationLevelId    Int?
+  school              String?               @db.VarChar(255)
+  major               String?               @db.VarChar(255)
+  graduationYear      Int?                  @db.Year
+  verified            Boolean?              @default(false)
+  verifiedAt          DateTime?             @db.DateTime(0)
+  applications        applications[]
+  reviews             reviews[]
+  savedprograms       savedprograms[]
+  studentcertificates studentcertificates[]
+  studentlanguages    studentlanguages[]
+  studentpreferences  studentpreferences?
+  educationlevels     educationlevels?      @relation(fields: [educationLevelId], references: [id], onUpdate: Restrict, map: "fk_students_educationLevels")
+  users               users                 @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_students_users")
+
+  @@index([educationLevelId], map: "fk_students_educationLevels")
+}
+
+model users {
+  id                                  Int             @id @default(autoincrement())
+  roleId                              Int
+  email                               String          @unique(map: "email") @db.VarChar(255)
+  phone                               String?         @db.VarChar(20)
+  avatar                              String?         @db.VarChar(255)
+  name                                String          @db.VarChar(255)
+  address                             String?         @db.VarChar(255)
+  password                            String          @db.VarChar(255)
+  status                              String?         @default("active") @db.VarChar(50)
+  createdAt                           DateTime?       @default(now()) @db.DateTime(0)
+  updatedAt                           DateTime?       @db.DateTime(0)
+  admins                              admins?
+  brokers                             brokers?
+  companies                           companies?
+  messages_messages_receiverIdTousers messages[]      @relation("messages_receiverIdTousers")
+  messages_messages_senderIdTousers   messages[]      @relation("messages_senderIdTousers")
+  news                                news[]
+  notifications                       notifications[]
+  students                            students?
+  roles                               roles           @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_users_roles")
+
+  @@index([roleId], map: "fk_users_roles")
+}

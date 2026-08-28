@@ -125,3 +125,343 @@ header.header-show:hover {
 
     gap: 10px;
 }
+/* ======================================================
+   USER MENU
+====================================================== */
+
+.user-menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+
+/* ======================================================
+   USER BUTTON
+====================================================== */
+
+.user-button {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    height: 42px;
+    padding: 5px 12px 5px 6px;
+
+    border: 1px solid #d9e5e1;
+    border-radius: 25px;
+
+    background: #ffffff;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.user-button:hover {
+    background: #f2faf7;
+    border-color: #03795f;
+
+    box-shadow:
+        0 4px 12px rgba(3, 121, 95, 0.12);
+}
+
+
+/* ======================================================
+   USER AVATAR
+====================================================== */
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    display: block;
+}
+
+
+/* ======================================================
+   USER NAME
+====================================================== */
+
+.user-name {
+    max-width: 130px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    color: #222;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* ======================================================
+   ARROW
+====================================================== */
+
+.user-arrow {
+    font-size: 9px;
+
+    color: #03795f;
+
+    margin-left: 2px;
+
+    transition: transform 0.2s ease;
+}
+
+
+/* ======================================================
+   DROPDOWN
+====================================================== */
+
+.user-dropdown {
+    position: absolute;
+
+    top: calc(100% + 10px);
+    right: 0;
+
+    width: 280px;
+
+    background: #ffffff;
+
+    border: 1px solid #e3ebe8;
+    border-radius: 14px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.12);
+
+    padding: 8px;
+
+    z-index: 1000;
+
+    animation: userDropdownShow 0.18s ease;
+}
+
+
+/* ======================================================
+   DROPDOWN ANIMATION
+====================================================== */
+
+@keyframes userDropdownShow {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ======================================================
+   USER INFO
+====================================================== */
+
+.user-info {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 10px;
+}
+
+
+/* ======================================================
+   DROPDOWN AVATAR
+====================================================== */
+
+.dropdown-avatar {
+    width: 48px;
+    height: 48px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+}
+
+
+/* ======================================================
+   USER INFO TEXT
+====================================================== */
+
+.user-info-text {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.user-info-text strong {
+    color: #222;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.user-info-text span {
+    color: #777;
+
+    font-size: 12px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.user-info-text small {
+    color: #03795f;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    text-transform: capitalize;
+}
+
+
+/* ======================================================
+   DIVIDER
+====================================================== */
+
+.dropdown-divider {
+    height: 1px;
+
+    margin: 6px 4px;
+
+    background: #edf1ef;
+}
+
+
+/* ======================================================
+   DROPDOWN BUTTON
+====================================================== */
+
+.user-dropdown > button {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 11px 12px;
+
+    border: none;
+    border-radius: 9px;
+
+    background: transparent;
+
+    color: #333;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.user-dropdown > button:hover {
+    background: #f2faf7;
+
+    color: #03795f;
+}
+
+
+/* ======================================================
+   ICON TRONG DROPDOWN
+====================================================== */
+
+.user-dropdown > button span {
+    width: 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 16px;
+}
+
+
+/* ======================================================
+   LOGOUT
+====================================================== */
+
+.user-dropdown > .logout-button {
+    color: #d9534f;
+}
+
+.user-dropdown > .logout-button:hover {
+    background: #fff2f2;
+
+    color: #d9363e;
+}
+
+
+/* ======================================================
+   ACTION AREA
+====================================================== */
+
+.btn-dieu-huong {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 900px) {
+    .user-name {
+        display: none;
+    }
+
+    .user-button {
+        padding-right: 7px;
+    }
+
+    .user-dropdown {
+        right: -10px;
+
+        width: 270px;
+    }
+}
+
+
+@media (max-width: 600px) {
+    .user-dropdown {
+        position: fixed;
+
+        top: 70px;
+        right: 15px;
+        left: 15px;
+
+        width: auto;
+    }
+}
