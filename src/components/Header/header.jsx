@@ -4,7 +4,12 @@ import { NavLink, useNavigate } from "react-router-dom";
 import RoleSwitcher from "../RoleSwitcher/roleSwitcher";
 
 import "./header.css";
-
+import {
+    FaUser,
+    FaSignOutAlt,
+    FaChevronDown,
+    FaChevronUp
+} from "react-icons/fa";
 export default function Header({
     role = "student",
     onLogin,
@@ -12,18 +17,10 @@ export default function Header({
 }) {
     const navigate = useNavigate();
 
-    // ======================================================
-    // HEADER SHOW / HIDE
-    // ======================================================
-
     const [showHeader, setShowHeader] = useState(true);
 
     const lastScrollY = useRef(0);
     const scrollUpDistance = useRef(0);
-
-    // ======================================================
-    // ACCOUNT
-    // ======================================================
 
     const [account, setAccount] = useState(() => {
         try {
@@ -43,16 +40,10 @@ export default function Header({
         }
     });
 
-    // ======================================================
-    // PROFILE DROPDOWN
-    // ======================================================
 
     const [showProfileMenu, setShowProfileMenu] =
         useState(false);
 
-    // ======================================================
-    // HIDE / SHOW HEADER
-    // ======================================================
 
     useEffect(() => {
         const handleScroll = () => {
@@ -100,9 +91,6 @@ export default function Header({
         };
     }, []);
 
-    // ======================================================
-    // ĐỒNG BỘ ACCOUNT
-    // ======================================================
 
     useEffect(() => {
         const handleAuthChange = () => {
@@ -376,18 +364,6 @@ export default function Header({
     };
 
     // ======================================================
-    // PROFILE
-    // ======================================================
-
-    const handleProfile = () => {
-        setShowProfileMenu(false);
-
-        navigate(
-            `/${accountRole}/profile`
-        );
-    };
-
-    // ======================================================
     // LOGOUT
     // ======================================================
 
@@ -537,8 +513,9 @@ export default function Header({
 
                             <span className="user-arrow">
                                 {showProfileMenu
-                                    ? "▲"
-                                    : "▼"}
+                                    ? <FaChevronDown/>
+    
+                                    : <FaChevronUp/>}
                             </span>
 
                         </button>
@@ -595,24 +572,12 @@ export default function Header({
                                         handlePersonalInfo
                                     }
                                 >
-                                    <span>👤</span>
+                                    <span><FaUser/></span>
 
                                     Thông tin cá nhân
                                 </button>
 
-                                {/* PROFILE */}
-
-                                <button
-                                    type="button"
-                                    onClick={
-                                        handleProfile
-                                    }
-                                >
-                                    <span>⚙️</span>
-
-                                    Profile
-                                </button>
-
+                                
                                 <div className="dropdown-divider" />
 
                                 {/* LOGOUT */}
@@ -624,7 +589,7 @@ export default function Header({
                                         handleLogout
                                     }
                                 >
-                                    <span>🚪</span>
+                                    <span><FaSignOutAlt/></span>
 
                                     Đăng xuất
                                 </button>

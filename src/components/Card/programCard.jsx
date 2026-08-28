@@ -1,7 +1,6 @@
+
 import "./programCard.css";
-
 import ReactCountryFlag from "react-country-flag";
-
 import {
     FaUsers,
     FaVenusMars,
@@ -10,118 +9,51 @@ import {
     FaClock,
 } from "react-icons/fa";
 
-import {
-    countries,
-    companies,
-    brokers,
-    users,
-} from "../../mockData/data";
-
-
 const formatMoney = (value) => {
     if (value === null || value === undefined) {
         return "";
     }
 
-    if (value >= 1000000) {
-        return `${value / 1000000}M`;
+    const num = Number(value); 
+
+    if (num >= 1000000) {
+        return `${num / 1000000}M`;
     }
 
-    if (value >= 100000) {
-        return `${value / 1000}K`;
+    if (num >= 10000) {
+        return `${num / 1000}K`;
     }
 
-    return value.toLocaleString("vi-VN");
+    return num.toLocaleString("vi-VN");
 };
 
-
 function ProgramCard({ data = [] }) {
-
     const sortedData = [...data].sort(
-        (a, b) =>
-            new Date(b.createdAt) -
-            new Date(a.createdAt)
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
-
 
     return (
         <div className="card">
-
             {sortedData.length === 0 ? (
-
-                <p className="no-data">
-                    Không có thông tin!
-                </p>
-
+                <p className="no-data">Không có thông tin!</p>
             ) : (
-
                 sortedData.map((program) => {
+                    // =================================================
+                    // 1. ÁNH ĐẠI DIỆN
+                    // =================================================
+                    const image = program.programImages?.[0];
 
                     // =================================================
-                    // ẢNH ĐẠI DIỆN
+                    // 2. DỮ LIỆU TỪ API INCLUDED (Không cần dùng .find nữa)
                     // =================================================
-
-                    const image =
-                        program.programImages?.[0];
-
-
-                    // =================================================
-                    // QUỐC GIA
-                    // =================================================
-
-                    const country = countries.find(
-                        (item) =>
-                            item.id === program.countryId
-                    );
-
-
-                    // =================================================
-                    // CÔNG TY
-                    // =================================================
-
-                    const company = companies.find(
-                        (item) =>
-                            item.id === program.companyId
-                    );
-
-                    const userCompany = company
-                        ? users.find(
-                            (item) =>
-                                item.id === company.userId
-                        )
-                        : null;
-
-
-                    // =================================================
-                    // BROKER
-                    // =================================================
-
-                    const broker = brokers.find(
-                        (item) =>
-                            item.id === program.brokerId
-                    );
-
-                    const userBroker = broker
-                        ? users.find(
-                            (item) =>
-                                item.id === broker.userId
-                        )
-                        : null;
-
+                    const country = program.countries;
+                    const companyName = program.companies?.users?.name;
+                    const brokerName = program.brokers?.users?.name;
 
                     return (
-
-                        <div
-                            key={program.id}
-                            className="card-item"
-                        >
-
-                            {/* =================================================
-                                                IMAGE
-                            ================================================= */}
-
+                        <div key={program.id} className="card-item">
+                            {/* IMAGE */}
                             <div className="card-image-wrapper">
-
                                 <img
                                     className="card-image"
                                     src={
@@ -130,243 +62,114 @@ function ProgramCard({ data = [] }) {
                                     }
                                     alt={program.name}
                                 />
-
                             </div>
 
-
-                            {/* =================================================
-                                                CONTENT
-                            ================================================= */}
-
+                            {/* CONTENT */}
                             <div className="card-content">
-
-                                <h3>
-                                    {program.name}
-                                </h3>
-
+                                <h3>{program.name}</h3>
 
                                 <div className="info-card">
-
-                                    {/* ================= QUỐC GIA ================= */}
-
+                                    {/* QUỐC GIA */}
                                     <p>
-
                                         {country?.code && (
-
                                             <ReactCountryFlag
-                                                countryCode={
-                                                    country.code
-                                                }
+                                                countryCode={country.code}
                                                 svg
                                                 className="flag"
                                             />
-
                                         )}
-
-                                        {country?.name ||
-                                            "Chưa cập nhật"}
-
+                                        {country?.name || "Chưa cập nhật"}
                                     </p>
 
-
-                                    {/* ================= SỐ LƯỢNG ================= */}
-
-                                    {program.recruitmentTarget !==
-                                        null &&
-                                        program.recruitmentTarget !==
-                                            undefined && (
-
+                                    {/* SỐ LƯỢNG */}
+                                    {program.recruitmentTarget !== null &&
+                                        program.recruitmentTarget !== undefined && (
                                             <p>
-
                                                 <FaUsers />
-
-                                                {
-                                                    program.recruitmentTarget
-                                                }{" "}
-                                                vị trí
-
+                                                {program.recruitmentTarget} vị trí
                                             </p>
-
                                         )}
 
-
-                                    {/* ================= GIỚI TÍNH ================= */}
-
+                                    {/* GIỚI TÍNH */}
                                     {program.gender && (
-
                                         <p>
-
                                             <FaVenusMars />
-
                                             {program.gender}
-
                                         </p>
-
                                     )}
 
-
-                                    {/* ================= ĐỘ TUỔI ================= */}
-
-                                    {(program.ageMin !==
-                                        null ||
-                                        program.ageMax !==
-                                            null) && (
-
+                                    {/* ĐỘ TUỔI */}
+                                    {(program.ageMin !== null ||
+                                        program.ageMax !== null) && (
                                         <p>
-
                                             <FaCalendar />
-
-                                            {program.ageMin ??
-                                                "..."}{" "}
-                                            -{" "}
-                                            {program.ageMax ??
-                                                "..."}{" "}
-                                            tuổi
-
+                                            {program.ageMin ?? "..."} -{" "}
+                                            {program.ageMax ?? "..."} tuổi
                                         </p>
-
                                     )}
 
-
-                                    {/* ================= CHI PHÍ ================= */}
-
-                                    {program.cost !==
-                                        null &&
-                                        program.cost !==
-                                            undefined && (
-
+                                    {/* CHI PHÍ */}
+                                    {program.cost !== null &&
+                                        program.cost !== undefined && (
                                             <p>
-
                                                 <FaDollarSign />
-
-                                                Từ{" "}
-                                                {formatMoney(
-                                                    program.cost
-                                                )}{" "}
-                                                {
-                                                    program.costCurrency
-                                                }
-
+                                                Từ {formatMoney(program.cost)}{" "}
+                                                {program.costCurrency}
                                             </p>
-
                                         )}
 
+                                    
 
-                                    {/* ================= LƯƠNG ================= */}
-
-                                    {(program.salaryMin !==
-                                        null ||
-                                        program.salaryMax !==
-                                            null) && (
-
-                                        <p>
-
-                                            <FaDollarSign />
-
-                                            {formatMoney(
-                                                program.salaryMin
-                                            )}{" "}
-
-                                            -{" "}
-
-                                            {formatMoney(
-                                                program.salaryMax
-                                            )}{" "}
-
-                                            {
-                                                program.salaryCurrency
-                                            }
-
-                                        </p>
-
-                                    )}
-
-
-                                    {/* ================= HẠN ĐĂNG KÝ ================= */}
-
+                                    {/* HẠN ĐĂNG KÝ */}
                                     {program.applicationDeadline && (
-
                                         <p>
-
                                             <FaClock />
-
                                             Hạn:{" "}
-
                                             {new Date(
                                                 program.applicationDeadline
-                                            ).toLocaleDateString(
-                                                "vi-VN"
-                                            )}
-
+                                            ).toLocaleDateString("vi-VN")}
                                         </p>
-
                                     )}
 
-
-                                    {/* ================= TRẠNG THÁI ================= */}
-
+                                    {/* TRẠNG THÁI */}
                                     <p>
-
                                         <FaClock />
-
-                                        {program.status ===
-                                        "active"
+                                        {program.status === "active"
                                             ? "Đang tuyển"
                                             : "Đã đóng"}
-
                                     </p>
-
                                 </div>
 
-
-                                {/* =================================================
-                                                COMPANY
-                                ================================================= */}
-
+                                {/* LƯƠNG */}
+                                    {(program.salaryMin !== null ||
+                                        program.salaryMax !== null) && (
+                                        <p><strong>Lương:&nbsp;</strong>
+                                            <FaDollarSign />
+                                            {formatMoney(program.salaryMin)} -{" "}
+                                            {formatMoney(program.salaryMax)}{" "}
+                                            {program.salaryCurrency}/tháng
+                                        </p>
+                                    )}               
+                                {/* CÔNG TY */}
                                 <p>
+                                <strong>Công ty:&nbsp;</strong>
+                                {" "+companyName || "Chưa cập nhật"}
+                            </p>
 
-                                    <strong>
-                                        Công ty: 
-                                    </strong>{" "}
-
-                                    {userCompany?.name ||
-                                        "Chưa cập nhật"}
-
-                                </p>
-
-
-                                {/* =================================================
-                                                BROKER
-                                ================================================= */}
-
-                                {broker && (
-
+                                {/* BROKER (Nếu có) */}
+                                {program.brokers && (
                                     <p>
-
-                                        <strong>
-                                            Đơn vị tuyển dụng: 
-                                        </strong>{" "}
-
-                                        {userBroker?.name ||
-                                            "Chưa cập nhật"}
-
+                                        <strong>Đơn vị tuyển dụng:&nbsp;</strong>
+                                        {brokerName || "Chưa cập nhật"}
                                     </p>
-
                                 )}
-
                             </div>
-
                         </div>
-
                     );
-
                 })
-
             )}
-
         </div>
     );
 }
-
 
 export default ProgramCard;

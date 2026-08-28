@@ -192,14 +192,14 @@ header.header-show:hover {
 
 .user-name {
     max-width: 130px;
-
+    font-family: var(--font-title);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 
-    color: #222;
+    color: var(--green-4);
 
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
 }
 
@@ -209,13 +209,13 @@ header.header-show:hover {
 ====================================================== */
 
 .user-arrow {
-    font-size: 9px;
-
+    font-size: 15px;
+    margin-top: 5px;
     color: #03795f;
 
     margin-left: 2px;
 
-    transition: transform 0.2s ease;
+    transition: transform 0.4s ease;
 }
 
 
@@ -226,8 +226,8 @@ header.header-show:hover {
 .user-dropdown {
     position: absolute;
 
-    top: calc(100% + 10px);
-    right: 0;
+    top: calc(100% + 5px);
+    right: -10px;
 
     width: 280px;
 

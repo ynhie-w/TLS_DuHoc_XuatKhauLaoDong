@@ -8,15 +8,15 @@ function NewsCard({ data = [] }) {
                     Không có tin tức!
                 </p>
             ) : (
-                data.map((item) => (
+                data.map((news) => (
                     <div
-                        key={item.id}
+                        key={news.id}
                         className="news-item"
                     >
                         <img
                             className="news-image"
-                            src={item.thumbnail}
-                            alt={item.title}
+                            src={news.thumbnail}
+                            alt={news.title}
                         />
 
                         <div className="news-content">
@@ -24,21 +24,21 @@ function NewsCard({ data = [] }) {
                                 Tin tức
                             </span>
 
-                            <h3>{item.title}</h3>
+                            <h3>{news.title}</h3>
 
                             <p className="news-description">
-                                {item.content}
+                                {news.content}
                             </p>
 
                             <div className="news-meta">
                                 <span>
                                     {new Date(
-                                        item.createdAt
+                                        news.createdAt
                                     ).toLocaleDateString("vi-VN")}
                                 </span>
 
                                 <span>
-                                    {item.status === "published"
+                                    {news.status === "published"
                                         ? "Đã xuất bản"
                                         : "Bản nháp"}
                                 </span>
